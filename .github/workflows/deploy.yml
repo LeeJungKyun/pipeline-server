@@ -5,9 +5,9 @@ name: deploy
 # main 브랜치에 push 혹은 pull request가 있을 때 워크플로우를 실행
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 # 워크플로우가 실행될 운영체제 지정
 jobs:
@@ -43,7 +43,7 @@ jobs:
           echo "DB_USER=${{ secrets.DB_USER }}" >> .env
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
-          
+
       # 파일 및 폴더를 압축하여 server.zip으로 저장
       - name: zip distributions
         run: zip -r server.zip .
@@ -55,7 +55,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
-          
+
       # S3로 압축 파일 업로드
       - name: upload to S3
         run: aws s3 cp --region ap-northeast-2 ./server.zip s3://${{secrets.BUCKET_NAME}}/public/
